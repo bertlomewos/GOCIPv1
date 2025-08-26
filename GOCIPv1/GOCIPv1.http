@@ -1,0 +1,6 @@
+@GOCIPv1_HostAddress = http://localhost:5273
+
+GET {{GOCIPv1_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

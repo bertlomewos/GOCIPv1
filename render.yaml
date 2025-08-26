@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: GOCIPv1-api
+    env: dotnet
+    rootDir: GOCIPv1
+    buildCommand: dotnet publish GOCIPv1/GOCIPv1.csproj -c Release -o out
+    startCommand: dotnet out/GOCIPv1.dll
+    envVars:
+      - key: DOTNET_RUNNING_IN_CONTAINER
+        value: true
