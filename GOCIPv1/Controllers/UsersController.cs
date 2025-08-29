@@ -38,6 +38,9 @@ namespace GOCIPv1.Controllers
         {
             if (user == null)
                 return BadRequest("User data is required");
+            var emailExists = await _context.Users.AnyAsync(u => u.Email == user.Email);
+            if (emailExists)
+                return Conflict("Email already in use.");
             var newUser = new User
             {
                 UserId = user.UserId,
@@ -58,9 +61,6 @@ namespace GOCIPv1.Controllers
         {
 
             var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.UserId == userId);
-            var emailExists = await _context.Users.AnyAsync(u => u.Email == user.Email);
-            if (existingUser?.Email != user.Email)
-                return Conflict("Email already in use.");
             if (existingUser == null)
                 return NotFound();
             existingUser.Email = user.Email;
