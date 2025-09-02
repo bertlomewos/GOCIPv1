@@ -24,11 +24,9 @@ namespace GOCIPv1.Migrations
 
             modelBuilder.Entity("GOCIPv1.Model.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("UserId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<int?>("Age")
                         .HasColumnType("integer");
@@ -51,14 +49,11 @@ namespace GOCIPv1.Migrations
                     b.Property<string>("ProfilePictureUrl")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("UserName")
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.HasKey("Id");
+                    b.HasKey("UserId");
 
                     b.ToTable("Users");
                 });

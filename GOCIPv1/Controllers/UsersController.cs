@@ -21,7 +21,7 @@ namespace GOCIPv1.Controllers
         {
             return Ok(await _context.Users.ToListAsync());
         }
-        // GET: api/Users/{id}
+        // GET: api/Users/{userId}
         [HttpGet("{userId}")]
         public async Task<ActionResult<User>> GetUser(Guid userId)
         {
@@ -53,9 +53,9 @@ namespace GOCIPv1.Controllers
             };
             _context.Users.Add(newUser);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetUser), new { userId = newUser.Id }, newUser);
+            return CreatedAtAction(nameof(GetUser), new { userId = newUser.UserId }, newUser);
         }
-        // PUT: api/Users/{id}
+        // PUT: api/Users/{userId}
         [HttpPut("{userId}")]
         public async Task<IActionResult> UpdateUser(Guid userId, UserDto user)
         {
@@ -72,7 +72,18 @@ namespace GOCIPv1.Controllers
             await _context.SaveChangesAsync();
             return NoContent();
         }
-        // DELETE: api/Users/{id}
+        // PATCH: api/Users/forgotPassword/{userId}
+        [HttpPatch("forgotPassword/{userId}")]
+        public async Task<IActionResult> ForgotPassword(Guid userId, [FromBody] string newPassword)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == userId);
+            if (user == null)
+                return NotFound();
+            user.Password = newPassword;
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+        // DELETE: api/Users/{userId}
         [HttpDelete("{userId}")]
         public async Task<IActionResult> DeleteUser(Guid userId)
         {
